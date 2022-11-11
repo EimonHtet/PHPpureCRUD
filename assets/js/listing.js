@@ -13,18 +13,10 @@ function checkValidation() {
         $('#fullNameValidationError').text("Please Fill Name");
         $('#fullNameValidationError').show();
     }
-    else {
-        
-        if(validateName(full_name) == false) {
-            error = true; 
-            $('#fullNameValidationError').text("Invalid Name");
-            $('#fullNameValidationError').show();  
-        } else {
-            
+    else {  
             $('#fullNameValidationError').hide();
-        }
         
-    }
+         }
     
 
     if(email=="") {
@@ -37,8 +29,9 @@ function checkValidation() {
             $('#emailValidationError').text("Invalid email address");
             $('#emailValidationError').show();  
         } else {
-            var chkEmail = checkUniqueEmail(email);
-            //console.log(chkEmail.status);
+            var id = $("#id").val();
+            var chkEmail = checkUniqueEmail(email,id);
+            // alert(checkUniqueEmail(email,id));
             
             if (chkEmail != '200') {
                 $('#emailValidationError').text("The email address is already exit");
@@ -250,16 +243,16 @@ function clearForm() {
     $('#salaryValidationError').hide();
     $('#cityValidationError').hide();
 }
-function validateName(full_name) {
-    // var regName = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    // var regInt =/^([1-9]|[1-9]\d+)$/;
+// function validateName(full_name) {
+//     // var regName = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+//     // var regInt =/^([1-9]|[1-9]\d+)$/;
     
-    // return regName.test(full_name) || regInt.test(full_name);
+//     // return regName.test(full_name) || regInt.test(full_name);
 
-    var re =/^[A-Za-z]+$/ ;
-    return re.test(full_name);
+//     var re =/^[A-Za-z]+$/ ;
+//     return re.test(full_name);
 
-}
+// }
 function validateEmail(email) {
     var re = /\S+@\S+\.\S+/;
     return re.test(email);
@@ -271,26 +264,30 @@ function isInt(n){
 function isFloat(n){
     return Number(n) === n && n % 1 !== 0;
 }
-
-function checkUniqueEmail(email){
-    // return JSON.parse(
+ 
+function checkUniqueEmail(email,id){
+    var result = '';
+    //  return JSON.parse(
         $.ajax({
             type: "post",
             data: {
                 email: email,
+                id: id,
             },
             url: base_url + "check_email.php",
             dataType: 'json',
             global : false,
             async : false,
             success: function(data){
-                alert(data);
-                return data;
+                result = data.status;
+                // alert(result);
             },
             error: function( jqXhr, textStatus, errorThrown ){
                 console.log( errorThrown );
              },
-        }
-//    }).responseTest
+            }
+    // }).responseTest
  );
+ return result;
+
 }

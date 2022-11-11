@@ -27,7 +27,7 @@ require ('template/header.php');
                     <div  class="form-action-buttons">
                         <input type="button" value="Clear" onclick="clearForm();" style="background:#014242">
                         <input type="button" value="Submit" onclick="checkValidation();">
-                        <input type="hidden" value="" id="id" >
+                        <input type="hidden" value="" name='id' id="id" >
                     </div>
                 </form>
 		</div>
