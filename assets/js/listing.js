@@ -14,9 +14,19 @@ function checkValidation() {
         $('#fullNameValidationError').show();
     }
     else {  
-            $('#fullNameValidationError').hide();
+        var id = $("#id").val();    
+        var chkName = checkUniqueName(full_name,id);
         
-         }
+        if(chkName != '200') {
+            $('#fullNameValidationError').text("The name is already exit");
+            $('#fullNameValidationError').show();
+            error = true;
+        }
+        else {
+            $('#fullNameValidationError').hide();
+        }
+        
+     }
     
 
     if(email=="") {
@@ -291,3 +301,27 @@ function checkUniqueEmail(email,id){
  return result;
 
 }
+function checkUniqueName(full_name,id) {
+    $.ajax({
+        type: "post",
+        data: {
+            full_name,full_name,
+            id: id,
+        },
+        url: base_url + "check_name.php",
+        dataType: 'json',
+        global : false,
+        async : false,
+        success: function(data){
+            result = data.status;
+            // alert(result);
+        },
+        error: function( jqXhr, textStatus, errorThrown ){
+            console.log( errorThrown );
+         },
+        }
+// }).responseTest
+);
+return result;
+}
+ 
